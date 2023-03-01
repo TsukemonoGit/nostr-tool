@@ -21,6 +21,10 @@ pub struct SetChannelMetadataSubCommand {
     /// Channel picture
     #[arg(short, long)]
     picture: Option<String>,
+    
+    ///
+    #[arg(short, long)]
+    display_name: Option<String>,
 }
 
 pub fn set_channel_metadata(
@@ -58,7 +62,9 @@ pub fn set_channel_metadata(
     if let Some(picture) = sub_command_args.picture.clone() {
         metadata = metadata.picture(Url::parse(picture.as_str())?);
     }
-
+    if let Some(display_name) = sub_command_args.display_name.clone() {
+        metadata = metadata.display_name(display_name.as_str());
+    }
     // Send event
     let event_id = client.set_channel_metadata(channel_id, relay_url, metadata)?;
     
@@ -74,7 +80,9 @@ pub fn set_channel_metadata(
     if let Some(picture) = sub_command_args.picture.clone() {
         println!("Picture: {}", picture.as_str());
     }
-    
+    if let Some(display_name) = sub_command_args.display_name.clone() {
+        println!("display_name: {}", display_name.as_str());
+    }
     println!("Bech32 event id: {}", event_id.to_bech32()?);
     println!("Hex event id: {}", event_id.to_hex());
 

@@ -15,6 +15,12 @@ pub struct UpdateMetadataSubCommand {
     /// Picture URL
     #[arg(short, long)]
     picture: Option<String>,
+
+     ///
+     #[arg(short, long)]
+     display_name: Option<String>,
+
+    
     #[arg(long)]
     nip05: Option<String>,
     #[arg(long)]
@@ -52,6 +58,10 @@ pub fn update_metadata(
         metadata = metadata.picture(url);
     };
 
+// 
+    if let Some(display_name) = &sub_command_args.display_name {
+        metadata = metadata.display_name(display_name);
+    }
     // NIP-05 identifier
     if let Some(nip05_identifier) = &sub_command_args.nip05 {
         // Check if the nip05 is valid
